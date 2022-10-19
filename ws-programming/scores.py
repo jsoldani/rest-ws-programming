@@ -2,7 +2,7 @@ from flask import Flask, request, jsonify
 
 app = Flask(__name__)
 
-scores = {}
+scores = {} # indexed by players, storing associated scores
 
 @app.route('/scores',methods=['POST'])
 def add_score() :
@@ -58,7 +58,7 @@ def update_score(player):
 def remove_score(player):
     # return error if player doesn't exist
     if player not in scores: 
-        return jsonify({ "error": True }) # return empty message if player cannot be added
+        return jsonify({ "error": True }) 
     # remove player
     scores.pop(player)
     # send reply
