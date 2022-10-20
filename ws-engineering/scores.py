@@ -8,6 +8,10 @@ scores = {} # indexed by players, storing associated scores
 def add_score() :
     # get request's JSON body
     body = request.json 
+    # return error if player is not indicated
+    if 'player' not in body:
+        response = Response("{'error': 'missing player'}",status=400,mimetype='application/json')
+        return response
     # return error if player already exists
     player = body['player']
     if player in scores: 
@@ -45,14 +49,18 @@ def update_score(player):
     body = request.json 
     # update score (with given score, or 0 by default)
     if 'score' in body:
-        scores[player] = body['score']
+        score = int(body['score'])
+        # if negative score, return error
+        if score < 0:
+            response = Response("{'error': 'negative score'}",status=400,mimetype='application/json')
+            return response
+        scores[player] = score
     else: 
         scores[player] = 0
     # prepare & send reply 
     reply = {}
     reply["player"] = player
     reply["score"] = scores[player]
-    reply["path"] = "/punteggi/" + player
     return jsonify(reply)
 
 @app.route('/scores/<player>',methods=['DELETE'])
