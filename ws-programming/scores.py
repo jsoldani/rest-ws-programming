@@ -21,7 +21,7 @@ def add_score() :
     reply = {}
     reply["player"] = player
     reply["score"] = scores[player]
-    reply["path"] = "/punteggi/" + player
+    reply["path"] = "/scores/" + player
     return jsonify(reply)
 
 @app.route('/scores/<player>',methods=['GET'])
@@ -51,7 +51,6 @@ def update_score(player):
     reply = {}
     reply["player"] = player
     reply["score"] = scores[player]
-    reply["path"] = "/punteggi/" + player
     return jsonify(reply)
 
 @app.route('/scores/<player>',methods=['DELETE'])
