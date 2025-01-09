@@ -21,7 +21,7 @@ def execute(operator):
         reply['result'] = n*m
         reply['op'] = '*'
     elif operator == 'division':
-        reply['result'] = n/m
+        reply['result'] = n//m
         reply['remainder'] = n%m
         reply['op'] = '/'
     else:
