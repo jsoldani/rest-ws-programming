@@ -60,7 +60,6 @@ def update_item(code):
         'quantity': quantity
     }
     # build & send reply
-    path = '/inventory/'+code
     return jsonify({
         'code': code,
         'description': description,
