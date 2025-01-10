@@ -1,8 +1,16 @@
 from flask import Flask, request, jsonify
+import yaml
 
 app = Flask(__name__)
 
 students = {} 
+
+# load valid courses from config file
+courses = []
+with open('students-config.yml', 'r') as config_file:
+    config = yaml.safe_load(config_file)
+    for course in config['courses']:
+        courses.append(course.lower())
 
 @app.route('/students',methods=['POST'])
 def add_student():
@@ -48,7 +56,9 @@ def update_student(id):
     if id not in students:
         return jsonify({'error':True})
     # get course+grade
-    course = request.args.get('course')
+    course = request.args.get('course').lower()
+    if course not in courses:
+        return jsonify({'error':True})
     grade = request.args.get('grade')
     # add new student's grade
     if course not in students[id]['courses']:
